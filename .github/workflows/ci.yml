@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  units:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup
+      run: npm ci
+
+    - name: Test
+      run: npm test -- --coverage
+
+    - name: Upload Coverage
+      uses: codecov/codecov-action@v1
+      with:
+       token: ${{ secrets.CODECOV_TOKEN }}
+       fail_ci_if_error: true
