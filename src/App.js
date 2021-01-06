@@ -48,11 +48,13 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <PrivateRoute
             path="/servers"
+            redirect="/login"
             authenticated={authenticated}
             component={Servers}
           />
           <PublicRoute
             path="/login"
+            redirect="/servers"
             authenticated={authenticated}
             component={Login}
           />

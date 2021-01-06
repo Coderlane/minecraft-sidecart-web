@@ -6,45 +6,51 @@ import {
 import PropTypes from 'prop-types';
 
 /* eslint-disable react/jsx-props-no-spreading */
-function PublicRoute({ component: Component, authenticated, ...rest }) {
+function PublicRoute({
+  component: Component,
+  authenticated,
+  redirect,
+  ...rest
+}) {
   return (
     <Route
       {...rest}
       render={(props) => (authenticated === false ? (
         <Component {...props} />
       ) : (
-        <Redirect to="/servers" />
+        <Redirect to={redirect} />
       ))}
     />
   );
 }
 PublicRoute.propTypes = {
   authenticated: PropTypes.bool.isRequired,
-  component: PropTypes.element.isRequired,
+  component: PropTypes.func.isRequired,
   redirect: PropTypes.string.isRequired,
 };
 
-function PrivateRoute({ component: Component, authenticated, ...rest }) {
+function PrivateRoute({
+  component: Component,
+  authenticated,
+  redirect,
+  ...rest
+}) {
   return (
     <Route
       {...rest}
       render={(props) => (authenticated === true ? (
         <Component {...props} />
       ) : (
-        <Redirect
-          to={{ pathname: props.redirect, state: { from: props.location } }}
-        />
+        <Redirect to={props.redirect} />
       ))}
     />
   );
 }
 PrivateRoute.propTypes = {
   authenticated: PropTypes.bool.isRequired,
-  component: PropTypes.element.isRequired,
+  component: PropTypes.func.isRequired,
   redirect: PropTypes.string.isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+
 };
 /* eslint-enable react/jsx-props-no-spreading */
 
