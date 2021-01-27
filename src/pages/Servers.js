@@ -21,7 +21,7 @@ function ServerNavLink(props) {
       <Media>
         <Image src={server.info.icon} />
         <Media.Body>
-          <h5>{server.info.motd}</h5>
+          <h5>{server.name}</h5>
           <p>
             Players:
             {' '}
@@ -39,8 +39,8 @@ function ServerNavLink(props) {
 ServerNavLink.propTypes = {
   id: PropTypes.string.isRequired,
   server: PropTypes.shape({
+    name: PropTypes.string.isRequired,
     info: PropTypes.shape({
-      motd: PropTypes.string.isRequired,
       icon: PropTypes.string,
       online: PropTypes.bool.isRequired,
       online_players: PropTypes.number.isRequired,
@@ -54,14 +54,15 @@ function ServerDetails(props) {
 
   return (
     <Container>
-      <h1>{server.info.motd}</h1>
+      <h1>{server.name}</h1>
       <Row>
         <Col>
           <h3>Online Players</h3>
           <ListGroup>
-            {server.info.players.map((player) => (
-              <ListGroup.Item key={player.uuid}>{player.name}</ListGroup.Item>
-            ))}
+            {Array.isArray(server.info.players)
+             && server.info.players.map((player) => (
+               <ListGroup.Item key={player.uuid}>{player.name}</ListGroup.Item>
+             ))}
           </ListGroup>
         </Col>
         <Col />
@@ -71,8 +72,8 @@ function ServerDetails(props) {
 }
 ServerDetails.propTypes = {
   server: PropTypes.shape({
+    name: PropTypes.string.isRequired,
     info: PropTypes.shape({
-      motd: PropTypes.string.isRequired,
       icon: PropTypes.string,
       online: PropTypes.bool.isRequired,
       online_players: PropTypes.number.isRequired,
