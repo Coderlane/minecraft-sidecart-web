@@ -7,11 +7,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
 import Media from 'react-bootstrap/Media';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 import Header from '../components/Header';
-import { db } from '../services/firebase';
+import Server from '../components/Server';
 import { UserContext } from '../components/UserContext';
+import { db } from '../services/firebase';
 
 function ServerNavLink(props) {
   const { id, server } = props;
@@ -45,43 +45,6 @@ ServerNavLink.propTypes = {
       online: PropTypes.bool.isRequired,
       online_players: PropTypes.number.isRequired,
       max_players: PropTypes.number.isRequired,
-    }),
-  }).isRequired,
-};
-
-function ServerDetails(props) {
-  const { server } = props;
-
-  return (
-    <Container>
-      <h1>{server.name}</h1>
-      <Row>
-        <Col>
-          <h3>Online Players</h3>
-          <ListGroup>
-            {Array.isArray(server.info.players)
-             && server.info.players.map((player) => (
-               <ListGroup.Item key={player.uuid}>{player.name}</ListGroup.Item>
-             ))}
-          </ListGroup>
-        </Col>
-        <Col />
-      </Row>
-    </Container>
-  );
-}
-ServerDetails.propTypes = {
-  server: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    info: PropTypes.shape({
-      icon: PropTypes.string,
-      online: PropTypes.bool.isRequired,
-      online_players: PropTypes.number.isRequired,
-      max_players: PropTypes.number.isRequired,
-      players: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired,
-      })),
     }),
   }).isRequired,
 };
@@ -144,7 +107,7 @@ function Servers() {
             </Nav>
           </Col>
           <Col>
-            <ServerDetails server={servers.get(serverID)} />
+            <Server server={servers.get(serverID)} />
           </Col>
         </Row>
       </Container>
